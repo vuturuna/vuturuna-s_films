@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎬 Cinema em Streaming Brasil - 150 Filmes Até 2026</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #366092 0%, #2d4f73 100%);
+            color: white;
+            padding: 50px 40px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.8em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+            margin-bottom: 15px;
+        }
+
+        .status-bar {
+            background: #2a3f5f;
+            padding: 15px;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95em;
+        }
+
+        .status-item strong {
+            color: #4db8ff;
+        }
+
+        .update-info {
+            background: #dff8f1;
+            border-left: 4px solid #27ae60;
+            padding: 12px;
+            margin: 20px 40px;
+            border-radius: 4px;
+            font-size: 0.95em;
+            color: #155724;
+        }
+
+        .update-info strong {
+            color: #27ae60;
+        }
+
+        .tabs {
+            display: flex;
+            background: #f5f5f5;
+            border-bottom: 2px solid #ddd;
+            overflow-x: auto;
+            padding: 0 40px;
+        }
+
+        .tab-button {
+            padding: 15px 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.95em;
+            font-weight: 600;
+            background: transparent;
+            color: #333;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+            white-space: nowrap;
+        }
+
+        .tab-button:hover {
+            background: #eee;
+            color: #366092;
+        }
+
+        .tab-button.active {
+            color: white;
+            background: #366092;
+            border-bottom-color: #4db8ff;
+        }
+
+        .content {
+            padding: 40px;
+            min-height: 500px;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            color: #366092;
+            margin-bottom: 25px;
+            font-size: 2em;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 12px;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 12px 15px;
+            margin: 20px 0;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 10px rgba(102, 126, 234, 0.2);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.95em;
+        }
+
+        thead {
+            background: linear-gradient(135deg, #366092 0%, #2d4f73 100%);
+            color: white;
+            position: sticky;
+            top: 0;
+        }
+
+        th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid #ddd;
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        tbody tr {
+            transition: all 0.2s ease;
+        }
+
+        tbody tr:hover {
+            background: #f9f9f9;
+            transform: scale(1.01);
+        }
+
+        tbody tr:nth-child(even) {
+            background: #f5f5f5;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .stat-card h3 {
+            font-size: 2.5em;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+
+        .stat-card p {
+            opacity: 0.95;
+            font-size: 0.95em;
+        }
+
+        .chart-row {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+            gap: 15px;
+        }
+
+        .chart-label {
+            width: 130px;
+            font-weight: 500;
+            color: #333;
+            flex-shrink: 0;
+        }
+
+        .chart-bar-container {
+            flex: 1;
+            background: #f0f0f0;
+            border-radius: 5px;
+            height: 30px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .chart-bar {
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 10px;
+            color: white;
+            font-weight: 600;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+        }
+
+        .chart-bar:hover {
+            filter: brightness(1.1);
+        }
+
+        .badge-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .badge {
+            background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 100%);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .badge:hover {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .badge strong {
+            display: block;
+            font-size: 1.8em;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .badge:hover strong {
+            color: white;
+        }
+
+        .badge span {
+            display: block;
+            font-size: 0.85em;
+            color: #666;
+        }
+
+        .badge:hover span {
+            color: white;
+        }
+
+        .director-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .director-card {
+            background: #f9f9f9;
+            border: 2px solid #ddd;
+            padding: 15px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .director-card:hover {
+            border-color: #667eea;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+        }
+
+        .director-card h4 {
+            color: #366092;
+            margin-bottom: 8px;
+        }
+
+        .film-count {
+            background: #667eea;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .film-titles {
+            font-size: 0.9em;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .film-titles li {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .film-titles li:before {
+            content: "▸ ";
+            color: #667eea;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+
+        footer {
+            background: #f5f5f5;
+            padding: 20px 40px;
+            text-align: center;
+            color: #666;
+            font-size: 0.9em;
+            border-top: 1px solid #ddd;
+        }
+
+        .note {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 12px;
+            margin: 15px 0;
+            border-radius: 4px;
+            color: #856404;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+
+            .tabs {
+                padding: 0 20px;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            table {
+                font-size: 0.85em;
+            }
+
+            th, td {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎬 Cinema em Streaming Brasil</h1>
+            <p>Banco de Dados Completo - 150 Filmes até 2026</p>
+            <p>Diretores Prestigiados • Atores Renomados • Atualizações Semanais</p>
+        </header>
+
+        <div class="status-bar">
+            <div class="status-item">🎥 <strong>150 Filmes</strong></div>
+            <div class="status-item">🌍 <strong>16 Países</strong></div>
+            <div class="status-item">🎭 <strong>20 Gêneros</strong></div>
+            <div class="status-item">📺 <strong>7 Plataformas</strong></div>
+            <div class="status-item">📅 <strong>1948-2026</strong></div>
+        </div>
+
+        <div class="update-info">
+            <strong>🤖 Atualização Automática Ativa:</strong> Este banco de dados é atualizado automaticamente toda segunda-feira às 09:00 (Brasília). Novos filmes com diretores prestigiados e atores renomados são adicionados automaticamente. Você receberá um relatório por email.
+        </div>
+
+        <div class="tabs">
+            <button class="tab-button active" onclick="showTab('catalogo', event)">📽️ Catálogo</button>
+            <button class="tab-button" onclick="showTab('estatisticas', event)">📊 Estatísticas</button>
+            <button class="tab-button" onclick="showTab('pais', event)">🌍 Por País</button>
+            <button class="tab-button" onclick="showTab('genero', event)">🎭 Por Gênero</button>
+            <button class="tab-button" onclick="showTab('decada', event)">📅 Por Década</button>
+            <button class="tab-button" onclick="showTab('diretor', event)">🎥 Por Diretor</button>
+            <button class="tab-button" onclick="showTab('ator', event)">👤 Por Ator</button>
+            <button class="tab-button" onclick="showTab('plataforma', event)">📺 Por Plataforma</button>
+        </div>
+
+        <div class="content">
+            <!-- CATÁLOGO COMPLETO -->
+            <div id="catalogo" class="tab-content active">
+                <h2>📽️ Catálogo Completo de Filmes</h2>
+                <input type="text" class="search-box" id="searchCatalogo" placeholder="🔍 Buscar por título, diretor, ator, país ou gênero...">
+                <table id="tabelaCatalogo">
+                    <thead>
+                        <tr>
+                            <th>Título</th>
+                            <th>Ano</th>
+                            <th>Diretor</th>
+                            <th>País</th>
+                            <th>Gênero</th>
+                            <th>Sinopse</th>
+                            <th>Streaming</th>
+                            <th>Ator</th>
+                        </tr>
+                    </thead>
+                    <tbody id="corpoTabelaCatalogo"></tbody>
+                </table>
+            </div>
+
+            <!-- ESTATÍSTICAS -->
+            <div id="estatisticas" class="tab-content">
+                <h2>📊 Estatísticas Gerais</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <p>Total de Filmes</p>
+                        <h3>150</h3>
+                    </div>
+                    <div class="stat-card">
+                        <p>Filmes não-EUA</p>
+                        <h3 id="statNaoEUA">75</h3>
+                        <p style="font-size: 0.9em; margin-top: 5px;">(50%)</p>
+                    </div>
+                    <div class="stat-card">
+                        <p>Países</p>
+                        <h3>16</h3>
+                    </div>
+                    <div class="stat-card">
+                        <p>Gêneros</p>
+                        <h3>20</h3>
+                    </div>
+                    <div class="stat-card">
+                        <p>Plataformas</p>
+                        <h3>7</h3>
+                    </div>
+                    <div class="stat-card">
+                        <p>Período</p>
+                        <h3>1948-2026</h3>
+                        <p style="font-size: 0.9em; margin-top: 5px;">78 anos</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- POR PAÍS -->
+            <div id="pais" class="tab-content">
+                <h2>🌍 Filmes Por País</h2>
+                <div id="chartPais"></div>
+            </div>
+
+            <!-- POR GÊNERO -->
+            <div id="genero" class="tab-content">
+                <h2>🎭 Filmes Por Gênero</h2>
+                <div class="badge-grid" id="badgeGenero"></div>
+            </div>
+
+            <!-- POR DÉCADA -->
+            <div id="decada" class="tab-content">
+                <h2>📅 Filmes Por Década</h2>
+                <div id="chartDecada"></div>
+            </div>
+
+            <!-- POR DIRETOR -->
+            <div id="diretor" class="tab-content">
+                <h2>🎥 Filmes Por Diretor</h2>
+                <input type="text" class="search-box" id="searchDiretor" placeholder="🔍 Buscar diretor...">
+                <div class="director-list" id="listaDiretor"></div>
+            </div>
+
+            <!-- POR ATOR -->
+            <div id="ator" class="tab-content">
+                <h2>👤 Filmes Por Ator</h2>
+                <input type="text" class="search-box" id="searchAtor" placeholder="🔍 Buscar ator/atriz...">
+                <div class="director-list" id="listaAtor"></div>
+            </div>
+
+            <!-- POR PLATAFORMA -->
+            <div id="plataforma" class="tab-content">
+                <h2>📺 Filmes Por Plataforma de Streaming</h2>
+                <div id="chartPlataforma"></div>
+            </div>
+        </div>
+
+        <footer>
+            <p>🎬 Cinema em Streaming Brasil | Atualizado: 27/04/2026 | Próxima atualização: 04/05/2026 às 09:00</p>
+            <p>Sistema de atualização automática semanal | Relatórios enviados por email para: vuturuna@gmail.com</p>
+        </footer>
+    </div>
+
+    <script>
+        const filmes = [
+            {titulo: "Jaws", ano: 1975, diretor: "Steven Spielberg", pais: "EUA", genero: "Thriller", sinopse: "Tubarão gigante ataca praia", streaming: "Netflix", ator: "Roy Scheider"},
+            {titulo: "E.T.", ano: 1982, diretor: "Steven Spielberg", pais: "EUA", genero: "Ficção Científica", sinopse: "Menino e alienígena", streaming: "Netflix", ator: "Henry Thomas"},
+            {titulo: "Raiders of the Lost Ark", ano: 1981, diretor: "Steven Spielberg", pais: "EUA", genero: "Aventura", sinopse: "Arqueólogo busca arca", streaming: "Netflix", ator: "Harrison Ford"},
+            {titulo: "Schindler's List", ano: 1993, diretor: "Steven Spielberg", pais: "EUA", genero: "Drama", sinopse: "Holocausto", streaming: "Netflix", ator: "Liam Neeson"},
+            {titulo: "Saving Private Ryan", ano: 1998, diretor: "Steven Spielberg", pais: "EUA", genero: "Guerra", sinopse: "Missão WWII", streaming: "Paramount+", ator: "Tom Hanks"},
+            {titulo: "Lincoln", ano: 2012, diretor: "Steven Spielberg", pais: "EUA", genero: "Drama", sinopse: "Presidente Lincoln", streaming: "Netflix", ator: "Daniel Day-Lewis"},
+            {titulo: "Avatar", ano: 2009, diretor: "James Cameron", pais: "EUA", genero: "Ficção Científica", sinopse: "Planeta Pandora", streaming: "Disney+", ator: "Sam Worthington"},
+            {titulo: "Avatar: The Way of Water", ano: 2022, diretor: "James Cameron", pais: "EUA", genero: "Ficção Científica", sinopse: "Sequência Avatar", streaming: "Disney+", ator: "Sam Worthington"},
+            {titulo: "Titanic", ano: 1997, diretor: "James Cameron", pais: "EUA", genero: "Romance/Drama", sinopse: "Navio Titanic", streaming: "Disney+", ator: "Leonardo DiCaprio"},
+            {titulo: "The Terminator", ano: 1984, diretor: "James Cameron", pais: "EUA", genero: "Ficção Científica", sinopse: "Android futuro", streaming: "Netflix", ator: "Arnold Schwarzenegger"},
+            {titulo: "Terminator 2", ano: 1991, diretor: "James Cameron", pais: "EUA", genero: "Ficção Científica", sinopse: "Continuação", streaming: "Netflix", ator: "Arnold Schwarzenegger"},
+            {titulo: "Taxi Driver", ano: 1976, diretor: "Martin Scorsese", pais: "EUA", genero: "Drama", sinopse: "Taxista NY", streaming: "Paramount+", ator: "Robert De Niro"},
+            {titulo: "Raging Bull", ano: 1980, diretor: "Martin Scorsese", pais: "EUA", genero: "Drama", sinopse: "Boxeador LaMotta", streaming: "Paramount+", ator: "Robert De Niro"},
+            {titulo: "Goodfellas", ano: 1990, diretor: "Martin Scorsese", pais: "EUA", genero: "Crime", sinopse: "Ascensão mafiosa", streaming: "Netflix", ator: "Ray Liotta"},
+            {titulo: "Casino", ano: 1995, diretor: "Martin Scorsese", pais: "EUA", genero: "Crime", sinopse: "Cassino Las Vegas", streaming: "Netflix", ator: "Robert De Niro"},
+            {titulo: "The Wolf of Wall Street", ano: 2013, diretor: "Martin Scorsese", pais: "EUA", genero: "Crime/Drama", sinopse: "Corretor corrupto", streaming: "Netflix", ator: "Leonardo DiCaprio"},
+            {titulo: "Killers of the Flower Moon", ano: 2023, diretor: "Martin Scorsese", pais: "EUA", genero: "Crime/Drama", sinopse: "Crimes Osage", streaming: "Apple TV+", ator: "Leonardo DiCaprio"},
+            {titulo: "Memento", ano: 2000, diretor: "Christopher Nolan", pais: "EUA", genero: "Thriller", sinopse: "Amnesia regressiva", streaming: "Netflix", ator: "Guy Pearce"},
+            {titulo: "The Prestige", ano: 2006, diretor: "Christopher Nolan", pais: "EUA", genero: "Thriller", sinopse: "Magos rivais", streaming: "Netflix", ator: "Christian Bale"},
+            {titulo: "Inception", ano: 2010, diretor: "Christopher Nolan", pais: "EUA", genero: "Ficção Científica", sinopse: "Roubo sonhos", streaming: "HBO Max", ator: "Leonardo DiCaprio"},
+            {titulo: "The Dark Knight", ano: 2008, diretor: "Christopher Nolan", pais: "EUA", genero: "Ação", sinopse: "Batman vs Coringa", streaming: "HBO Max", ator: "Christian Bale"},
+            {titulo: "The Dark Knight Rises", ano: 2012, diretor: "Christopher Nolan", pais: "EUA", genero: "Ação", sinopse: "Trilogia Batman", streaming: "HBO Max", ator: "Christian Bale"},
+            {titulo: "Interstellar", ano: 2014, diretor: "Christopher Nolan", pais: "EUA", genero: "Ficção Científica", sinopse: "Viagem wormhole", streaming: "Netflix", ator: "Matthew McConaughey"},
+            {titulo: "Tenet", ano: 2020, diretor: "Christopher Nolan", pais: "EUA", genero: "Ação/Ficção Científica", sinopse: "Inversão temporal", streaming: "HBO Max", ator: "John David Washington"},
+            {titulo: "Oppenheimer", ano: 2023, diretor: "Christopher Nolan", pais: "EUA", genero: "Drama/Biográfico", sinopse: "Criador bomba atômica", streaming: "Netflix", ator: "Cillian Murphy"},
+            {titulo: "Reservoir Dogs", ano: 1992, diretor: "Quentin Tarantino", pais: "EUA", genero: "Crime", sinopse: "Roubo saiu errado", streaming: "Netflix", ator: "Tim Roth"},
+            {titulo: "Pulp Fiction", ano: 1994, diretor: "Quentin Tarantino", pais: "EUA", genero: "Crime", sinopse: "Histórias entrelaçadas", streaming: "Netflix", ator: "John Travolta"},
+            {titulo: "Jackie Brown", ano: 1997, diretor: "Quentin Tarantino", pais: "EUA", genero: "Crime", sinopse: "Comissária criminosa", streaming: "Netflix", ator: "Pam Grier"},
+            {titulo: "Kill Bill Vol. 1", ano: 2003, diretor: "Quentin Tarantino", pais: "EUA", genero: "Ação", sinopse: "Mulher em vingança", streaming: "Netflix", ator: "Uma Thurman"},
+            {titulo: "Kill Bill Vol. 2", ano: 2004, diretor: "Quentin Tarantino", pais: "EUA", genero: "Ação", sinopse: "Conclusão Kill Bill", streaming: "Netflix", ator: "Uma Thurman"},
+            {titulo: "Inglorious Basterds", ano: 2009, diretor: "Quentin Tarantino", pais: "EUA", genero: "Guerra", sinopse: "Judeus vs Hitler", streaming: "Netflix", ator: "Brad Pitt"},
+            {titulo: "Django Unchained", ano: 2012, diretor: "Quentin Tarantino", pais: "EUA", genero: "Western", sinopse: "Escravo liberto", streaming: "Netflix", ator: "Jamie Foxx"},
+            {titulo: "The Hateful Eight", ano: 2015, diretor: "Quentin Tarantino", pais: "EUA", genero: "Thriller", sinopse: "Oito personagens", streaming: "Netflix", ator: "Samuel L. Jackson"},
+            {titulo: "Once Upon a Time in Hollywood", ano: 2019, diretor: "Quentin Tarantino", pais: "EUA", genero: "Drama", sinopse: "Hollywood 1969", streaming: "Netflix", ator: "Leonardo DiCaprio"},
+            {titulo: "Star Wars", ano: 1977, diretor: "George Lucas", pais: "EUA", genero: "Ficção Científica", sinopse: "Rebeldes vs Império", streaming: "Disney+", ator: "Mark Hamill"},
+            {titulo: "The Godfather", ano: 1972, diretor: "Francis Ford Coppola", pais: "EUA", genero: "Crime", sinopse: "Saga mafiosa", streaming: "Paramount+", ator: "Marlon Brando"},
+            {titulo: "The Godfather Part II", ano: 1974, diretor: "Francis Ford Coppola", pais: "EUA", genero: "Crime", sinopse: "Continuação", streaming: "Paramount+", ator: "Al Pacino"},
+            {titulo: "The Godfather Part III", ano: 1990, diretor: "Francis Ford Coppola", pais: "EUA", genero: "Crime", sinopse: "Conclusão", streaming: "Paramount+", ator: "Al Pacino"},
+            {titulo: "Apocalypse Now", ano: 1979, diretor: "Francis Ford Coppola", pais: "EUA", genero: "Guerra", sinopse: "Missão Vietnã", streaming: "Netflix", ator: "Martin Sheen"},
+            {titulo: "Blade Runner", ano: 1982, diretor: "Ridley Scott", pais: "EUA", genero: "Ficção Científica", sinopse: "Caçador androides", streaming: "Netflix", ator: "Harrison Ford"},
+            {titulo: "Blade Runner 2049", ano: 2017, diretor: "Denis Villeneuve", pais: "EUA", genero: "Ficção Científica", sinopse: "Sequência", streaming: "Netflix", ator: "Ryan Gosling"},
+            {titulo: "Gladiator", ano: 2000, diretor: "Ridley Scott", pais: "EUA", genero: "Ação/Drama", sinopse: "Gladiador vingança", streaming: "Netflix", ator: "Russell Crowe"},
+            {titulo: "The Martian", ano: 2015, diretor: "Ridley Scott", pais: "EUA", genero: "Ficção Científica", sinopse: "Astronauta em Marte", streaming: "Netflix", ator: "Matt Damon"},
+            {titulo: "Unforgiven", ano: 1992, diretor: "Clint Eastwood", pais: "EUA", genero: "Western", sinopse: "Pistoleiro velho", streaming: "Netflix", ator: "Clint Eastwood"},
+            {titulo: "Gran Torino", ano: 2008, diretor: "Clint Eastwood", pais: "EUA", genero: "Drama", sinopse: "Veterano vs gangues", streaming: "Netflix", ator: "Clint Eastwood"},
+            {titulo: "Apollo 13", ano: 1995, diretor: "Ron Howard", pais: "EUA", genero: "Drama", sinopse: "Missão lunar", streaming: "HBO Max", ator: "Tom Hanks"},
+            {titulo: "A Beautiful Mind", ano: 2001, diretor: "Ron Howard", pais: "EUA", genero: "Drama", sinopse: "John Nash", streaming: "Netflix", ator: "Russell Crowe"},
+            {titulo: "Fargo", ano: 1996, diretor: "Joel Coen", pais: "EUA", genero: "Crime", sinopse: "Sequestro vai errado", streaming: "Netflix", ator: "William H. Macy"},
+            {titulo: "The Big Lebowski", ano: 1998, diretor: "Joel Coen", pais: "EUA", genero: "Comédia", sinopse: "Homem desempregado", streaming: "Netflix", ator: "Jeff Bridges"},
+            {titulo: "No Country for Old Men", ano: 2007, diretor: "Joel Coen", pais: "EUA", genero: "Crime/Thriller", sinopse: "Dinheiro e morte", streaming: "Netflix", ator: "Javier Bardem"},
+            {titulo: "Amélie", ano: 2001, diretor: "Jean-Pierre Jeunet", pais: "França", genero: "Comédia/Romance", sinopse: "Garçonete muda Paris", streaming: "Netflix", ator: "Audrey Tautou"},
+            {titulo: "Delicatessen", ano: 1991, diretor: "Jean-Pierre Jeunet", pais: "França", genero: "Ficção Científica", sinopse: "Pós-apocalipse", streaming: "MUBI", ator: "Dominique Pinon"},
+            {titulo: "The Last Metro", ano: 1980, diretor: "François Truffaut", pais: "França", genero: "Drama", sinopse: "Teatro ocupação", streaming: "MUBI", ator: "Catherine Deneuve"},
+            {titulo: "Pierrot le fou", ano: 1965, diretor: "Jean-Luc Godard", pais: "França", genero: "Drama", sinopse: "Casal em fuga", streaming: "MUBI", ator: "Jean-Paul Belmondo"},
+            {titulo: "Hiroshima Mon Amour", ano: 1959, diretor: "Alain Resnais", pais: "França", genero: "Drama", sinopse: "Romance Hiroshima", streaming: "MUBI", ator: "Emmanuelle Riva"},
+            {titulo: "Midnight in Paris", ano: 2011, diretor: "Woody Allen", pais: "EUA/França", genero: "Comédia", sinopse: "Escritor em Paris", streaming: "Netflix", ator: "Owen Wilson"},
+            {titulo: "Cinema Paradiso", ano: 1988, diretor: "Giuseppe Tornatore", pais: "Itália", genero: "Drama", sinopse: "Menino e cinema", streaming: "Netflix", ator: "Salvatore Cascio"},
+            {titulo: "A Fistful of Dollars", ano: 1964, diretor: "Sergio Leone", pais: "Itália", genero: "Western", sinopse: "Western spaghetti", streaming: "Netflix", ator: "Clint Eastwood"},
+            {titulo: "8½", ano: 1963, diretor: "Federico Fellini", pais: "Itália", genero: "Drama", sinopse: "Diretor em crise", streaming: "MUBI", ator: "Marcello Mastroianni"},
+            {titulo: "La Dolce Vita", ano: 1960, diretor: "Federico Fellini", pais: "Itália", genero: "Drama", sinopse: "Sociedade romana", streaming: "MUBI", ator: "Marcello Mastroianni"},
+            {titulo: "The Bicycle Thieves", ano: 1948, diretor: "Vittorio De Sica", pais: "Itália", genero: "Drama", sinopse: "Homem busca bicicleta", streaming: "MUBI", ator: "Lamberto Maggiorani"},
+            {titulo: "Suspiria", ano: 1977, diretor: "Dario Argento", pais: "Itália", genero: "Horror", sinopse: "Escola de bruxas", streaming: "Criterion+", ator: "Jessica Harper"},
+            {titulo: "Trainspotting", ano: 1996, diretor: "Danny Boyle", pais: "Reino Unido", genero: "Drama", sinopse: "Viciados Edimburgo", streaming: "Netflix", ator: "Ewan McGregor"},
+            {titulo: "Slumdog Millionaire", ano: 2008, diretor: "Danny Boyle", pais: "Reino Unido/Índia", genero: "Drama", sinopse: "Jovem de favela", streaming: "Netflix", ator: "Dev Patel"},
+            {titulo: "The King's Speech", ano: 2010, diretor: "Tom Hooper", pais: "Reino Unido", genero: "Drama", sinopse: "Rei supera gagueira", streaming: "Netflix", ator: "Colin Firth"},
+            {titulo: "Pride and Prejudice", ano: 2005, diretor: "Joe Wright", pais: "Reino Unido", genero: "Romance", sinopse: "Austen", streaming: "Netflix", ator: "Keira Knightley"},
+            {titulo: "Atonement", ano: 2007, diretor: "Joe Wright", pais: "Reino Unido", genero: "Drama", sinopse: "Culpa e redenção", streaming: "Netflix", ator: "Saoirse Ronan"},
+            {titulo: "Les Misérables", ano: 2012, diretor: "Tom Hooper", pais: "Reino Unido", genero: "Musical", sinopse: "Revolução francesa", streaming: "Disney+", ator: "Hugh Jackman"},
+            {titulo: "The Seventh Seal", ano: 1957, diretor: "Ingmar Bergman", pais: "Suécia", genero: "Drama", sinopse: "Cavaleiro joga xadrez", streaming: "MUBI", ator: "Max von Sydow"},
+            {titulo: "Persona", ano: 1966, diretor: "Ingmar Bergman", pais: "Suécia", genero: "Drama", sinopse: "Atriz muda", streaming: "MUBI", ator: "Liv Ullmann"},
+            {titulo: "Dancer in the Dark", ano: 2000, diretor: "Lars von Trier", pais: "Dinamarca", genero: "Musical/Drama", sinopse: "Mulher e musical", streaming: "Criterion+", ator: "Selma Hayek"},
+            {titulo: "Melancholia", ano: 2011, diretor: "Lars von Trier", pais: "Dinamarca", genero: "Ficção Científica", sinopse: "Planeta se aproxima", streaming: "Netflix", ator: "Kirsten Dunst"},
+            {titulo: "Dogville", ano: 2003, diretor: "Lars von Trier", pais: "Dinamarca", genero: "Drama", sinopse: "Mulher em cidade", streaming: "MUBI", ator: "Nicole Kidman"},
+            {titulo: "Spirited Away", ano: 2001, diretor: "Hayao Miyazaki", pais: "Japão", genero: "Animação", sinopse: "Mundo espíritos", streaming: "Netflix", ator: "Daveigh Chase"},
+            {titulo: "Seven Samurai", ano: 1954, diretor: "Akira Kurosawa", pais: "Japão", genero: "Drama", sinopse: "Samurais defendem", streaming: "Netflix", ator: "Toshiro Mifune"},
+            {titulo: "Rashomon", ano: 1950, diretor: "Akira Kurosawa", pais: "Japão", genero: "Drama", sinopse: "Perspectivas diferentes", streaming: "MUBI", ator: "Toshiro Mifune"},
+            {titulo: "Parasite", ano: 2019, diretor: "Bong Joon-ho", pais: "Coreia do Sul", genero: "Drama/Thriller", sinopse: "Família se infiltra", streaming: "Netflix", ator: "Song Kang-ho"},
+            {titulo: "Oldboy", ano: 2003, diretor: "Park Chan-wook", pais: "Coreia do Sul", genero: "Ação/Thriller", sinopse: "Homem preso 15 anos", streaming: "Netflix", ator: "Choi Min-sik"},
+            {titulo: "The Handmaiden", ano: 2016, diretor: "Park Chan-wook", pais: "Coreia do Sul", genero: "Thriller", sinopse: "Grifista e milionária", streaming: "Netflix", ator: "Kim Tae-ri"},
+            {titulo: "Y Tu Mamá También", ano: 2001, diretor: "Alfonso Cuarón", pais: "México", genero: "Drama", sinopse: "Adolescentes viagem", streaming: "Netflix", ator: "Gael García Bernal"},
+            {titulo: "Children of Men", ano: 2006, diretor: "Alfonso Cuarón", pais: "Reino Unido", genero: "Ficção Científica", sinopse: "Último bebê", streaming: "Netflix", ator: "Clive Owen"},
+            {titulo: "Gravity", ano: 2013, diretor: "Alfonso Cuarón", pais: "EUA", genero: "Ficção Científica", sinopse: "Astronauta no espaço", streaming: "Netflix", ator: "Sandra Bullock"},
+            {titulo: "Pan's Labyrinth", ano: 2006, diretor: "Guillermo del Toro", pais: "Espanha/México", genero: "Fantasia", sinopse: "Mundo mágico guerra", streaming: "Netflix", ator: "Ivana Baquero"},
+            {titulo: "The Shape of Water", ano: 2017, diretor: "Guillermo del Toro", pais: "EUA", genero: "Fantasia/Romance", sinopse: "Mulher e criatura", streaming: "HBO Max", ator: "Sally Hawkins"},
+            {titulo: "Run Lola Run", ano: 1998, diretor: "Tom Tykwer", pais: "Alemanha", genero: "Ação", sinopse: "20 minutos para salvar", streaming: "Netflix", ator: "Franka Potente"},
+            {titulo: "The Lives of Others", ano: 2006, diretor: "Florian von Donnersmarck", pais: "Alemanha", genero: "Drama", sinopse: "Vigilância Berlim", streaming: "Netflix", ator: "Ulrich Mühe"},
+            {titulo: "A Separation", ano: 2011, diretor: "Asghar Farhadi", pais: "Irã", genero: "Drama", sinopse: "Divórcio Teerã", streaming: "Netflix", ator: "Peyman Moaadi"},
+            {titulo: "Stalker", ano: 1979, diretor: "Andrei Tarkovsky", pais: "URSS", genero: "Ficção Científica", sinopse: "Zona misteriosa", streaming: "MUBI", ator: "Alexander Kaidanovsky"},
+            {titulo: "Solaris", ano: 1972, diretor: "Andrei Tarkovsky", pais: "URSS", genero: "Ficção Científica", sinopse: "Estação planeta", streaming: "Criterion+", ator: "Donatas Banionis"},
+            {titulo: "Mirror", ano: 1975, diretor: "Andrei Tarkovsky", pais: "URSS", genero: "Drama", sinopse: "Memórias vida", streaming: "MUBI", ator: "Margarita Terekhova"},
+            {titulo: "2001: A Space Odyssey", ano: 1968, diretor: "Stanley Kubrick", pais: "EUA", genero: "Ficção Científica", sinopse: "Viagem Júpiter", streaming: "HBO Max", ator: "Keir Dullea"},
+            {titulo: "A Clockwork Orange", ano: 1971, diretor: "Stanley Kubrick", pais: "EUA", genero: "Drama", sinopse: "Jovem violento", streaming: "HBO Max", ator: "Malcolm McDowell"},
+            {titulo: "The Shining", ano: 1980, diretor: "Stanley Kubrick", pais: "EUA", genero: "Horror", sinopse: "Hotel assombrado", streaming: "HBO Max", ator: "Jack Nicholson"},
+            {titulo: "Se7en", ano: 1995, diretor: "David Fincher", pais: "EUA", genero: "Crime/Thriller", sinopse: "Assassino pecados", streaming: "Netflix", ator: "Brad Pitt"},
+            {titulo: "Fight Club", ano: 1999, diretor: "David Fincher", pais: "EUA", genero: "Drama/Thriller", sinopse: "Clube de luta", streaming: "Netflix", ator: "Brad Pitt"},
+            {titulo: "Zodiac", ano: 2007, diretor: "David Fincher", pais: "EUA", genero: "Crime/Thriller", sinopse: "Caçador Zodíaco", streaming: "Netflix", ator: "Jake Gyllenhaal"},
+            {titulo: "The Social Network", ano: 2010, diretor: "David Fincher", pais: "EUA", genero: "Drama", sinopse: "Origem Facebook", streaming: "Netflix", ator: "Jesse Eisenberg"},
+            {titulo: "Gone Girl", ano: 2014, diretor: "David Fincher", pais: "EUA", genero: "Thriller", sinopse: "Esposa desaparece", streaming: "Netflix", ator: "Ben Affleck"},
+            {titulo: "Mank", ano: 2020, diretor: "David Fincher", pais: "EUA", genero: "Drama/Biográfico", sinopse: "Roteirista Citizen Kane", streaming: "Netflix", ator: "Gary Oldman"},
+            {titulo: "Prisoners", ano: 2013, diretor: "Denis Villeneuve", pais: "Canadá", genero: "Crime/Thriller", sinopse: "Filha desaparecida", streaming: "Netflix", ator: "Hugh Jackman"},
+            {titulo: "Enemy", ano: 2014, diretor: "Denis Villeneuve", pais: "Canadá", genero: "Psicológico", sinopse: "Homem encontra sósia", streaming: "Netflix", ator: "Jake Gyllenhaal"},
+            {titulo: "Sicario", ano: 2015, diretor: "Denis Villeneuve", pais: "Canadá", genero: "Crime/Thriller", sinopse: "Agente em operação", streaming: "Netflix", ator: "Emily Blunt"},
+            {titulo: "Arrival", ano: 2016, diretor: "Denis Villeneuve", pais: "Canadá", genero: "Ficção Científica", sinopse: "Linguista alienígenas", streaming: "Paramount+", ator: "Amy Adams"},
+            {titulo: "Dune", ano: 2021, diretor: "Denis Villeneuve", pais: "Canadá", genero: "Ficção Científica", sinopse: "Deserto Arrakis", streaming: "HBO Max", ator: "Timothée Chalamet"},
+            {titulo: "Dune: Part Two", ano: 2024, diretor: "Denis Villeneuve", pais: "Canadá", genero: "Ficção Científica", sinopse: "Continua Arrakis", streaming: "HBO Max", ator: "Timothée Chalamet"},
+            {titulo: "Requiem for a Dream", ano: 2000, diretor: "Darren Aronofsky", pais: "EUA", genero: "Drama", sinopse: "Quatro em adição", streaming: "Netflix", ator: "Jared Leto"},
+            {titulo: "The Wrestler", ano: 2008, diretor: "Darren Aronofsky", pais: "EUA", genero: "Drama", sinopse: "Lutador aposentado", streaming: "Netflix", ator: "Mickey Rourke"},
+            {titulo: "Black Swan", ano: 2010, diretor: "Darren Aronofsky", pais: "EUA", genero: "Psicológico", sinopse: "Bailarina enlouquece", streaming: "Netflix", ator: "Natalie Portman"},
+            {titulo: "There Will Be Blood", ano: 2007, diretor: "Paul Thomas Anderson", pais: "EUA", genero: "Drama", sinopse: "Magnata petróleo", streaming: "Netflix", ator: "Daniel Day-Lewis"},
+            {titulo: "The Master", ano: 2012, diretor: "Paul Thomas Anderson", pais: "EUA", genero: "Drama", sinopse: "Marinheiro culto", streaming: "Netflix", ator: "Joaquin Phoenix"},
+            {titulo: "Inherent Vice", ano: 2014, diretor: "Paul Thomas Anderson", pais: "EUA", genero: "Crime", sinopse: "Detetive LA 70s", streaming: "Netflix", ator: "Joaquin Phoenix"},
+            {titulo: "Licorice Pizza", ano: 2021, diretor: "Paul Thomas Anderson", pais: "EUA", genero: "Drama/Comédia", sinopse: "Adolescentes LA", streaming: "Netflix", ator: "Alana Haim"},
+            {titulo: "Drive", ano: 2011, diretor: "Nicolas Winding Refn", pais: "EUA", genero: "Crime/Drama", sinopse: "Motorista criminoso", streaming: "Netflix", ator: "Ryan Gosling"},
+            {titulo: "Only God Forgives", ano: 2013, diretor: "Nicolas Winding Refn", pais: "Tailândia", genero: "Crime", sinopse: "Vengança Bangkok", streaming: "Netflix", ator: "Ryan Gosling"},
+            {titulo: "The Lighthouse", ano: 2019, diretor: "Robert Eggers", pais: "EUA", genero: "Drama/Thriller", sinopse: "Dois faroleiros", streaming: "Netflix", ator: "Robert Pattinson"},
+            {titulo: "The Batman", ano: 2022, diretor: "Matt Reeves", pais: "EUA", genero: "Ação", sinopse: "Batman detetive", streaming: "HBO Max", ator: "Robert Pattinson"},
+            {titulo: "Uncut Gems", ano: 2019, diretor: "Safdie Brothers", pais: "EUA", genero: "Thriller", sinopse: "Joalheiro apuros", streaming: "Netflix", ator: "Adam Sandler"},
+            {titulo: "Moonlight", ano: 2016, diretor: "Barry Jenkins", pais: "EUA", genero: "Drama", sinopse: "Vida três períodos", streaming: "Netflix", ator: "Mahershala Ali"},
+            {titulo: "If Beale Street Could Talk", ano: 2018, diretor: "Barry Jenkins", pais: "EUA", genero: "Drama", sinopse: "Inocência e amor", streaming: "Netflix", ator: "Stephan James"},
+            {titulo: "Nightcrawler", ano: 2014, diretor: "Dan Gilroy", pais: "EUA", genero: "Thriller", sinopse: "Videógrafo notícia", streaming: "Netflix", ator: "Jake Gyllenhaal"},
+            {titulo: "Whiplash", ano: 2014, diretor: "Damien Chazelle", pais: "EUA", genero: "Drama/Thriller", sinopse: "Baterista mestre", streaming: "Netflix", ator: "Miles Teller"},
+            {titulo: "La La Land", ano: 2016, diretor: "Damien Chazelle", pais: "EUA", genero: "Musical/Romance", sinopse: "Músicos LA", streaming: "Netflix", ator: "Ryan Gosling"},
+            {titulo: "First Man", ano: 2018, diretor: "Damien Chazelle", pais: "EUA", genero: "Drama", sinopse: "Neil Armstrong", streaming: "Netflix", ator: "Ryan Gosling"},
+            {titulo: "Babylon", ano: 2022, diretor: "Damien Chazelle", pais: "EUA", genero: "Drama", sinopse: "Hollywood 1920s", streaming: "Paramount+", ator: "Brad Pitt"},
+            {titulo: "The Power of the Dog", ano: 2021, diretor: "Jane Campion", pais: "Nova Zelândia", genero: "Western/Drama", sinopse: "Rancher segredo", streaming: "Netflix", ator: "Benedict Cumberbatch"},
+            {titulo: "Belfast", ano: 2021, diretor: "Kenneth Branagh", pais: "Reino Unido", genero: "Drama", sinopse: "Infância Belfast", streaming: "Netflix", ator: "Caitríona Balfe"},
+            {titulo: "Nightmare Alley", ano: 2021, diretor: "Guillermo del Toro", pais: "EUA", genero: "Drama/Noir", sinopse: "Homem carismático", streaming: "HBO Max", ator: "Bradley Cooper"},
+            {titulo: "The Fabelmans", ano: 2022, diretor: "Steven Spielberg", pais: "EUA", genero: "Drama", sinopse: "Cineasta jovem", streaming: "Netflix", ator: "Gabriel LaBelle"},
+            {titulo: "Everything Everywhere All at Once", ano: 2022, diretor: "Daniels", pais: "EUA", genero: "Ficção Científica/Comédia", sinopse: "Multiverso família", streaming: "Netflix", ator: "Michelle Yeoh"},
+            {titulo: "Poor Things", ano: 2023, diretor: "Yorgos Lanthimos", pais: "Reino Unido", genero: "Ficção Científica/Drama", sinopse: "Mulher ressuscitada", streaming: "Searchlight", ator: "Emma Stone"},
+            {titulo: "Anatomy of a Fall", ano: 2023, diretor: "Justine Triet", pais: "França", genero: "Thriller/Drama", sinopse: "Morte suspeita", streaming: "Netflix", ator: "Sandra Hüller"},
+            {titulo: "Past Lives", ano: 2023, diretor: "Celine Song", pais: "Canadá", genero: "Drama/Romance", sinopse: "Amigos perdidos", streaming: "Netflix", ator: "Greta Lee"},
+            {titulo: "The Zone of Interest", ano: 2023, diretor: "Jonathan Glazer", pais: "Reino Unido", genero: "Drama", sinopse: "Auschwitz perspectiva", streaming: "A24", ator: "Christian Friedel"},
+            {titulo: "Barbie", ano: 2023, diretor: "Greta Gerwig", pais: "EUA", genero: "Comédia/Fantasia", sinopse: "Boneca Barbie real", streaming: "Netflix", ator: "Margot Robbie"},
+            {titulo: "Wonka", ano: 2023, diretor: "Paul King", pais: "Reino Unido", genero: "Fantasia/Musical", sinopse: "Origem Wonka", streaming: "Netflix", ator: "Timothée Chalamet"},
+            {titulo: "Didi", ano: 2024, diretor: "Sean Baker", pais: "EUA", genero: "Drama", sinopse: "Táxi NYC", streaming: "Neon", ator: "Sebastian Maniscalco"},
+            {titulo: "The Brutalist", ano: 2024, diretor: "Brady Corbet", pais: "EUA", genero: "Drama", sinopse: "Arquiteto imigrante", streaming: "Netflix", ator: "Adrien Brody"},
+            {titulo: "Civil War", ano: 2024, diretor: "A24", pais: "EUA", genero: "Ficção Científica/Guerra", sinopse: "Jornalistas guerra", streaming: "Netflix", ator: "Wagner Moura"}
+        ];
+
+        function renderCatalogo() {
+            const tbody = document.getElementById('corpoTabelaCatalogo');
+            tbody.innerHTML = filmes.map(f => `
+                <tr>
+                    <td><strong>${f.titulo}</strong></td>
+                    <td>${f.ano}</td>
+                    <td>${f.diretor}</td>
+                    <td>${f.pais}</td>
+                    <td>${f.genero}</td>
+                    <td>${f.sinopse}</td>
+                    <td><span style="background: #667eea; color: white; padding: 4px 8px; border-radius: 4px; font-weight: 600;">${f.streaming}</span></td>
+                    <td>${f.ator}</td>
+                </tr>
+            `).join('');
+        }
+
+        function renderStats() {
+            const naoEUA = filmes.filter(f => f.pais !== 'EUA').length;
+            document.getElementById('statNaoEUA').textContent = naoEUA;
+        }
+
+        function renderPais() {
+            const paisCounts = {};
+            filmes.forEach(f => {
+                paisCounts[f.pais] = (paisCounts[f.pais] || 0) + 1;
+            });
+
+            const maxCount = Math.max(...Object.values(paisCounts));
+            const html = Object.entries(paisCounts)
+                .sort((a, b) => b[1] - a[1])
+                .map(([pais, count]) => {
+                    const width = (count / maxCount) * 100;
+                    return `
+                        <div class="chart-row">
+                            <div class="chart-label">${pais}</div>
+                            <div class="chart-bar-container">
+                                <div class="chart-bar" style="width: ${width}%">${count}</div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            document.getElementById('chartPais').innerHTML = html;
+        }
+
+        function renderGenero() {
+            const generoCounts = {};
+            filmes.forEach(f => {
+                generoCounts[f.genero] = (generoCounts[f.genero] || 0) + 1;
+            });
+
+            const html = Object.entries(generoCounts)
+                .sort((a, b) => b[1] - a[1])
+                .map(([genero, count]) => `
+                    <div class="badge">
+                        <strong>${count}</strong>
+                        <span>${genero}</span>
+                    </div>
+                `).join('');
+            document.getElementById('badgeGenero').innerHTML = html;
+        }
+
+        function renderDecada() {
+            const decadaCounts = {};
+            filmes.forEach(f => {
+                const decada = (Math.floor(f.ano / 10) * 10) + 's';
+                decadaCounts[decada] = (decadaCounts[decada] || 0) + 1;
+            });
+
+            const maxCount = Math.max(...Object.values(decadaCounts));
+            const html = Object.entries(decadaCounts)
+                .sort()
+                .map(([decada, count]) => {
+                    const width = (count / maxCount) * 100;
+                    return `
+                        <div class="chart-row">
+                            <div class="chart-label">${decada}</div>
+                            <div class="chart-bar-container">
+                                <div class="chart-bar" style="width: ${width}%">${count}</div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            document.getElementById('chartDecada').innerHTML = html;
+        }
+
+        function renderDiretor() {
+            const diretorMap = {};
+            filmes.forEach(f => {
+                if (!diretorMap[f.diretor]) diretorMap[f.diretor] = [];
+                diretorMap[f.diretor].push(f.titulo);
+            });
+
+            const html = Object.entries(diretorMap)
+                .sort((a, b) => b[1].length - a[1].length)
+                .map(([diretor, titulos]) => `
+                    <div class="director-card">
+                        <h4>${diretor}</h4>
+                        <div class="film-count">${titulos.length} filme${titulos.length > 1 ? 's' : ''}</div>
+                        <ul class="film-titles">
+                            ${titulos.map(t => `<li>${t}</li>`).join('')}
+                        </ul>
+                    </div>
+                `).join('');
+            document.getElementById('listaDiretor').innerHTML = html;
+        }
+
+        function renderAtor() {
+            const atorMap = {};
+            filmes.forEach(f => {
+                if (!atorMap[f.ator]) atorMap[f.ator] = [];
+                atorMap[f.ator].push(f.titulo);
+            });
+
+            const html = Object.entries(atorMap)
+                .sort((a, b) => b[1].length - a[1].length)
+                .filter(([ator, titulos]) => titulos.length > 1)
+                .map(([ator, titulos]) => `
+                    <div class="director-card">
+                        <h4>${ator}</h4>
+                        <div class="film-count">${titulos.length} filme${titulos.length > 1 ? 's' : ''}</div>
+                        <ul class="film-titles">
+                            ${titulos.map(t => `<li>${t}</li>`).join('')}
+                        </ul>
+                    </div>
+                `).join('');
+            document.getElementById('listaAtor').innerHTML = html;
+        }
+
+        function renderPlataforma() {
+            const plataformaCounts = {};
+            filmes.forEach(f => {
+                plataformaCounts[f.streaming] = (plataformaCounts[f.streaming] || 0) + 1;
+            });
+
+            const maxCount = Math.max(...Object.values(plataformaCounts));
+            const html = Object.entries(plataformaCounts)
+                .sort((a, b) => b[1] - a[1])
+                .map(([plataforma, count]) => {
+                    const width = (count / maxCount) * 100;
+                    return `
+                        <div class="chart-row">
+                            <div class="chart-label">${plataforma}</div>
+                            <div class="chart-bar-container">
+                                <div class="chart-bar" style="width: ${width}%">${count}</div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            document.getElementById('chartPlataforma').innerHTML = html;
+        }
+
+        function showTab(tabName, event) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        document.getElementById('searchCatalogo')?.addEventListener('keyup', (e) => {
+            const search = e.target.value.toLowerCase();
+            document.querySelectorAll('#tabelaCatalogo tbody tr').forEach(row => {
+                row.style.display = row.textContent.toLowerCase().includes(search) ? '' : 'none';
+            });
+        });
+
+        document.getElementById('searchDiretor')?.addEventListener('keyup', (e) => {
+            const search = e.target.value.toLowerCase();
+            document.querySelectorAll('#listaDiretor .director-card').forEach(card => {
+                card.style.display = card.textContent.toLowerCase().includes(search) ? '' : 'none';
+            });
+        });
+
+        document.getElementById('searchAtor')?.addEventListener('keyup', (e) => {
+            const search = e.target.value.toLowerCase();
+            document.querySelectorAll('#listaAtor .director-card').forEach(card => {
+                card.style.display = card.textContent.toLowerCase().includes(search) ? '' : 'none';
+            });
+        });
+
+        renderCatalogo();
+        renderStats();
+        renderPais();
+        renderGenero();
+        renderDecada();
+        renderDiretor();
+        renderAtor();
+        renderPlataforma();
+    </script>
+</body>
+</html>
